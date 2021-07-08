@@ -55,7 +55,7 @@ export const checkAuth = async (token?: string): Promise<payload | null> => {
 	if (sections[0] !== "Bearer") return null;
 
 	const secret = getAuthSecret();
-	const payload: payload | string = jwt.verify(sections[1], secret);
+	const payload: payload | string = jwt.verify(sections[1], secret) as payload | string;
 	if (typeof payload === "string") {
 		return null;
 	} else {

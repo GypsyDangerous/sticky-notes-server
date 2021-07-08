@@ -1,12 +1,5 @@
 import User from "../../models/User.model";
-import {
-	passwordMin,
-	passwordMax,
-	usernameMin,
-	usernameMax,
-	emailMin,
-	emailRegex,
-} from "../constants";
+import { config } from "../config.util";
 import { Credentials, AuthResult } from "../../types/Auth";
 
 export const validateLength = (value: string, min: number, max: number): boolean => {
@@ -19,17 +12,17 @@ export const validateLength = (value: string, min: number, max: number): boolean
 
 export const validateEmail = (email?: string): boolean => {
 	// use infinity as the max because there is no limit to the length of an email
-	if (!email || !validateLength(email, emailMin, Infinity)) return false;
+	if (!email || !validateLength(email, config.emailMin, Infinity)) return false;
 
-	return emailRegex.test(email);
+	return config.emailRegex.test(email);
 };
 
 export const validatePassword = (password?: string): boolean => {
-	return validateLength(password || "", passwordMin, passwordMax);
+	return validateLength(password || "", config.passwordMin, config.passwordMax);
 };
 
 export const validateUsername = (username?: string): boolean => {
-	return validateLength(username || "", usernameMin, usernameMax);
+	return validateLength(username || "", config.usernameMin, config.usernameMax);
 };
 
 export const hasUniqueEmail = async (email: string): Promise<boolean> => {
@@ -39,10 +32,7 @@ export const hasUniqueEmail = async (email: string): Promise<boolean> => {
 	return !(await new Promise(res => User.findOne({ email }, (err, data) => res(data))));
 };
 
-export const validateCredentials = (
-	{ username, email, password }: Credentials,
-	checkUsername: boolean
-): AuthResult => {
+export const validateCredentials = ({ username, email, password }: Credentials, checkUsername: boolean): AuthResult => {
 	const valid = {
 		success: true,
 		code: 200,
@@ -58,7 +48,7 @@ export const validateCredentials = (
 	if (!validateEmail(email)) {
 		return { success: false, code: 400, message: "Error: email is invalid or missing" };
 	}
-	
+
 	if (!checkUsername) return valid;
 
 	if (!validateUsername(username)) {

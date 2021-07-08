@@ -8,7 +8,7 @@ export const user = {
 		parent: unknown,
 		{ username, email, password, photo, bio, phone }: UserModification,
 		context: { id: string }
-	): DocumentQuery<User | null, User, unknown> => {
+	): Promise<DocumentQuery<User | null, User, unknown>> => {
 		const { id } = context;
 		if (!id) throw new Error("Unauthorized");
 		const result = await updateUser(id, {

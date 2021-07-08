@@ -1,6 +1,6 @@
-import { saltRounds } from "../constants";
+import { config } from "../config.util";
 import { UserModification } from "../../types/User";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 import { getPage } from "./getters";
 import { Page, Link, Theme } from "../../types/Page";
 import PageModel from "../../models/Page.model";
@@ -37,7 +37,7 @@ export const updateUser = async (
 	if (password) {
 		const samePassword = await bcrypt.compare(password, user.password);
 		if (!samePassword) {
-			user.password = await bcrypt.hash(password, saltRounds);
+			user.password = await bcrypt.hash(password, config.saltRounds);
 		}
 	}
 	await user.save();

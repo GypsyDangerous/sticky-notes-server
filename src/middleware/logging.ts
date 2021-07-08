@@ -6,7 +6,6 @@ const loggingPath = path.join(__dirname, "../../", "logging");
 
 export const logger = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
 	const loggingFilePath = path.join(loggingPath, "router.log");
-	const oldWrite = res.write;
 	const oldEnd = res.end;
 	if (!fs.existsSync(loggingPath)) {
 		console.log("creating directory");
@@ -17,8 +16,6 @@ export const logger = async (req: Request, res: Response, next: NextFunction): P
 	const logParams = `params=${Object.keys(query)
 		.map(k => `${encodeURIComponent(k)}=${encodeURIComponent(query[k] as string)}`)
 		.join("&")} `;
-
-	// eslint-disable-next-line prefer-const
 
 	res.startTime = new Date().getTime();
 

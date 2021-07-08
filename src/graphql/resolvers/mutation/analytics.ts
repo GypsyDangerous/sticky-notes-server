@@ -12,7 +12,7 @@ export const analytics = {
 			newAnalytics: { sessions, uniqueVisitors, clicks, links },
 		}: { id: string; newAnalytics: Analytics },
 		context: Context
-	): DocumentQuery<Analytics | null, Analytics, unknown> => {
+	): Promise<DocumentQuery<Analytics | null, Analytics, unknown>> => {
 		if (!id) throw new Error("Unauthorized");
 		const analyticsToModify = await Analytics.findOne({ owner: id });
 
@@ -35,7 +35,7 @@ export const analytics = {
 		parent: unknown,
 		{ linkId, userId: id }: { linkId: string; userId: string },
 		context: Context
-	): DocumentQuery<Analytics | null, Analytics, unknown> => {
+	): Promise<DocumentQuery<Analytics | null, Analytics, unknown>> => {
 		const analyticsToModify = await Analytics.findOne({ owner: id });
 
 		if (!analyticsToModify) throw new Error("not found");

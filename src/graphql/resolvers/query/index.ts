@@ -40,7 +40,7 @@ export const Query = {
 		parent: unknown,
 		args: unknown,
 		context: Context
-	): DocumentQuery<Analytics | null, Analytics, unknown> => {
+	): Promise<DocumentQuery<Analytics | null, Analytics, unknown>> => {
 		const { id } = context;
 		if (!id) throw new Error("Unauthorized");
 		return Analytics.findOne({ owner: id });
@@ -49,7 +49,7 @@ export const Query = {
 		parent: unknown,
 		{ name }: { name: string },
 		context: Context
-	): DocumentQuery<PageType | null, PageType, unknown> => {
+	): Promise<DocumentQuery<PageType | null, PageType, unknown>> => {
 		const { id } = context;
 		console.log(id);
 		if (id) {

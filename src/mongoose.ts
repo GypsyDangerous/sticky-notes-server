@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 
 export class MongooseController {
 	connectionString: string;
@@ -10,13 +10,12 @@ export class MongooseController {
 		this.connected = false;
 	}
 
-	async connect(useUnifiedTopology = true): Promise<void> {
+	async connect(): Promise<void> {
 		this.connected = true
-		this.app = await mongoose.connect(this.connectionString, {
-			useNewUrlParser: true,
-			useCreateIndex: true,
-			useUnifiedTopology: useUnifiedTopology,
-		});
+		mongoose.set('useNewUrlParser', true);
+		mongoose.set('useCreateIndex', true);
+		mongoose.set('useUnifiedTopology', true)
+		this.app = await mongoose.connect(this.connectionString);
 	}
 
 	async disconnect(): Promise<void> {

@@ -1,6 +1,5 @@
-import mongoose, { Schema } from "mongoose";
-import bcrypt from "bcrypt";
-import { saltRounds } from "../utils/constants";
+import bcrypt from 'bcryptjs';
+import mongoose, { Schema } from 'mongoose';
 
 interface OtherSocial {
 	name: string;
@@ -29,7 +28,7 @@ interface User extends mongoose.Document {
 	isDeleted?: boolean;
 	photo: string;
 	social: Socials;
-	tokenVersion: number,
+	tokenVersion: number;
 	generateHash: (password: string) => string;
 	validPassword: (password: string) => boolean;
 }
@@ -83,7 +82,7 @@ const UserSchema = new Schema(
 			type: Number,
 			required: true,
 			default: 0,
-		}
+		},
 	},
 	{
 		timestamps: true,
@@ -91,10 +90,11 @@ const UserSchema = new Schema(
 );
 
 UserSchema.methods.generateHash = async function (password: string) {
-	return bcrypt.hash(password, bcrypt.genSaltSync(saltRounds));
+	return bcrypt.hash(password, bcrypt.genSaltSync(3));
 };
 
 UserSchema.methods.validPassword = async function (password: string) {
+	// @ts-ignore
 	return bcrypt.compare(password, this.password);
 };
 

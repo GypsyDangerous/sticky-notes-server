@@ -1,8 +1,7 @@
 import multer from "multer";
 import {get_image_filename} from "../utils/functions"
 import fs from "fs"
-import { upload_path } from "../utils/constants";
-import {MimeTypeMap} from "../utils/constants"
+import {config} from "../utils/config.util"
 
 
 const fileUpload = multer({
@@ -11,18 +10,18 @@ const fileUpload = multer({
     },
 	storage: multer.diskStorage({
 		destination: (req, file, callback) => {
-			if (!fs.existsSync(upload_path)) {
-				fs.mkdirSync(upload_path, { recursive: true });
+			if (!fs.existsSync(config.upload_path)) {
+				fs.mkdirSync(config.upload_path, { recursive: true });
 			}
-			callback(null, upload_path);
+			callback(null, config.upload_path);
 		},
 		filename: (req, file, callback) => {
-			const ext = MimeTypeMap[file.mimetype];
+			const ext = config.mimeTypeMap[file.mimetype];
 			callback(null, get_image_filename(ext));
 		},
 	}),
 	fileFilter: (req, file, callback) => {
-		const isValid = !!MimeTypeMap[file.mimetype];
+		const isValid = !!config.mimeTypeMap[file.mimetype];
 		const error = isValid ? null : new Error("Invalid File Type");
 		if (error) {
 			callback(error);
