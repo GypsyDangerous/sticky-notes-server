@@ -13,7 +13,6 @@ import { getPage } from "../../../utils/functions";
 
 export const Query = {
 	user: async (parent: unknown, { name }: { name: string }): Promise<PublicUser> => {
-		console.log(name);
 		const privateUser = await User.findOne({ username: name });
 
 		if (!privateUser) throw new Error(`unknown user: ${name}`);
@@ -51,7 +50,6 @@ export const Query = {
 		context: Context
 	): Promise<DocumentQuery<PageType | null, PageType, unknown>> => {
 		const { id } = context;
-		console.log(id);
 		if (id) {
 			let page = await Page.findOne({ ownerId: id });
 			if (!page) page = await Page.findOne({ owner: name });
