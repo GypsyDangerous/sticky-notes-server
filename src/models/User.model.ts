@@ -1,23 +1,6 @@
 import bcrypt from 'bcryptjs';
 import mongoose, { Schema } from 'mongoose';
 
-interface OtherSocial {
-	name: string;
-	link: string;
-}
-
-interface Socials {
-	instagram?: string;
-	facebook?: string;
-	tiktok?: string;
-	medium?: string;
-	snapchat?: string;
-	email?: boolean;
-	phone?: boolean;
-	twitter?: string;
-	others?: OtherSocial[];
-}
-
 interface User extends mongoose.Document {
 	bio: string;
 	phone: string;
@@ -26,8 +9,6 @@ interface User extends mongoose.Document {
 	email: string;
 	password: string;
 	isDeleted?: boolean;
-	photo: string;
-	social: Socials;
 	tokenVersion: number;
 	generateHash: (password: string) => string;
 	validPassword: (password: string) => boolean;

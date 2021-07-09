@@ -1,12 +1,13 @@
-import User from "../../../models/User.model";
-import { DocumentQuery } from "mongoose";
-import { updateUser } from "../../../utils/functions";
-import { UserModification } from "../../../types/User";
+import { DocumentQuery } from 'mongoose';
+
+import User from '../../../models/User.model';
+import { UserModification } from '../../../types/User';
+import { updateUser } from '../../../utils/functions';
 
 export const user = {
 	updateUserProfile: async (
 		parent: unknown,
-		{ username, email, password, photo, bio, phone }: UserModification,
+		{ username, email, password }: UserModification,
 		context: { id: string }
 	): Promise<DocumentQuery<User | null, User, unknown>> => {
 		const { id } = context;
@@ -15,9 +16,6 @@ export const user = {
 			username,
 			email,
 			password,
-			photo,
-			bio,
-			phone,
 		});
 		if (result.code !== 200) throw new Error(result.message);
 		return User.findById(id);

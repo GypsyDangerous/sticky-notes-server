@@ -1,18 +1,12 @@
-import { AuthResult, payload } from "../../types/Auth";
-import jwt from "jsonwebtoken";
-import User from "../../models/User.model";
-import {
-	getAuthSecret,
-	getRefreshSecret,
-	getResetSecret,
-	get_image_filename,
-	get_url_extension,
-} from "./getters";
-import { validateCredentials } from "./validation";
-import { Context } from "../../types/Request";
-import { OAuth2Client } from "google-auth-library";
-import { downloadFile } from ".";
-import { createPage } from "./page";
+import { OAuth2Client } from 'google-auth-library';
+import jwt from 'jsonwebtoken';
+
+import User from '../../models/User.model';
+import { AuthResult, payload } from '../../types/Auth';
+import { Context } from '../../types/Request';
+import { downloadFile } from './';
+import { get_image_filename, getAuthSecret, getRefreshSecret, getResetSecret } from './getters';
+import { validateCredentials } from './validation';
 
 const googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
@@ -132,8 +126,6 @@ export const register = async (
 		email,
 		tokenVersion: newUser.tokenVersion,
 	});
-
-	createPage(newUser.id)
 
 	return {
 		code: 200,

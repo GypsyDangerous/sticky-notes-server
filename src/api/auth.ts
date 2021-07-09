@@ -1,6 +1,8 @@
-import { Router } from "express";
-import { hasUniqueEmail } from "../middleware";
-import { googleAuth, login, register } from "../utils/functions";
+import { Router } from 'express';
+
+import { hasUniqueEmail } from '../middleware';
+import { googleAuth, login, register } from '../utils/functions';
+
 const router = Router();
 
 router.post("/register", hasUniqueEmail, async (req, res) => {
@@ -32,9 +34,5 @@ router.post("/google/register", async (req, res, next) => {
 		res.status(500).json({ success: false, code: 500, message: "Error: " + err.message });
 	}
 });
-
-// router.post("/check_email", (res, req, next) => {
-
-// })
 
 export = router;

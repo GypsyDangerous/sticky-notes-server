@@ -1,15 +1,6 @@
-import User from "../../../models/User.model";
-import Page from "../../../models/Page.model";
-import { DocumentQuery } from "mongoose";
-
-import { Page as PageType } from "../../../types/Page";
-import { Context } from "../../../types/Request";
-import Analytics from "../../../models/Analytics.model";
-
-import { PublicUser } from "../../../types/User";
-import { getPage } from "../../../utils/functions";
-
-// interface uniqueDetails
+import User from '../../../models/User.model';
+import { Context } from '../../../types/Request';
+import { UserModification as PublicUser } from '../../../types/User';
 
 export const Query = {
 	user: async (parent: unknown, { name }: { name: string }): Promise<PublicUser> => {
@@ -18,46 +9,19 @@ export const Query = {
 		if (!privateUser) throw new Error(`unknown user: ${name}`);
 
 		return {
-			bio: privateUser.bio,
-			photo: privateUser.photo,
 			username: name,
 			id: privateUser._id,
 		};
 	},
-	me: async (parent: unknown, args: unknown, context: Context): Promise<any> => {
+	me: async (parent: unknown, args: unknown, context: Context): Promise<User> => {
 		if (context.id) {
-			const user: any = await User.findById(context.id);
-			const page = await getPage(context.id);
-			user.Page = page;
+			const user = await User.findById(context.id);
 
 			return user;
 		} else {
 			throw new Error("Unauthorized");
 		}
 	},
-	analytics: async (
-		parent: unknown,
-		args: unknown,
-		context: Context
-	): Promise<DocumentQuery<Analytics | null, Analytics, unknown>> => {
-		const { id } = context;
-		if (!id) throw new Error("Unauthorized");
-		return Analytics.findOne({ owner: id });
-	},
-	page: async (
-		parent: unknown,
-		{ name }: { name: string },
-		context: Context
-	): Promise<DocumentQuery<PageType | null, PageType, unknown>> => {
-		const { id } = context;
-		if (id) {
-			let page = await Page.findOne({ ownerId: id });
-			if (!page) page = await Page.findOne({ owner: name });
-			return page
-		}
-		return Page.findOne({ owner: name });
-	},
-
 	checkUniqueDetails: async (
 		parent: unknown,
 		{ email, username }: { email?: string; username?: string }

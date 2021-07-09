@@ -1,17 +1,9 @@
 import uid from "uid";
-import Page from "../../models/Page.model";
-import User from "../../models/User.model";
-import { Page as PageType } from "../../types/Page";
 
 export const get_image_filename = (ext: string): string => `photo-${uid(12)}-${uid(12)}.${ext}`;
 
 export const get_url_extension = (url: string): string | null => {
 	return url.split(/[#?]/)[0]?.split(".")?.pop()?.trim() || null;
-};
-
-export const getPage = async (owner: string): Promise<PageType | null> => {
-	const user = await User.findById(owner);
-	return await Page.findOne({ owner: user?.username });
 };
 
 export const getSecret = (key: string): string => {
@@ -32,5 +24,5 @@ export const getRefreshSecret = (): string => {
 };
 
 export const getResetSecret = (): string => {
-	return getSecret("RESET_SECRET")
-}
+	return getSecret("RESET_SECRET");
+};

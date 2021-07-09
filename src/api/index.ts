@@ -1,9 +1,9 @@
-import { Router } from "express";
-import fileUpload from "../middleware/file-upload";
-import { fileDownload } from "../middleware/download_file";
-import auth from "./auth";
-import users from "./users";
-import pages from "./Page";
+import { Router } from 'express';
+
+import { fileDownload } from '../middleware/download_file';
+import fileUpload from '../middleware/file-upload';
+import auth from './auth';
+import users from './users';
 
 const router = Router();
 
@@ -23,6 +23,5 @@ router.post("/upload", fileUpload.single("image"), async (req, res) => {
 
 router.use("/users", users);
 router.use("/auth", auth);
-router.use("/page", pages);
 
 export = router;

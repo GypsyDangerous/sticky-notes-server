@@ -1,38 +1,11 @@
-import User from "../models/User.model";
-import { Response, Router } from "express";
-import { hasUniqueEmail } from "../middleware";
-import checkAuth from "../middleware/check-auth";
-import { updateUser } from "../utils/functions";
+import { Response, Router } from 'express';
+
+import { hasUniqueEmail } from '../middleware';
+import checkAuth from '../middleware/check-auth';
+import User from '../models/User.model';
+import { updateUser } from '../utils/functions';
+
 const router = Router();
-import QRCode from "qrcode";
-
-router.get("/qr/:username", async (req, res, next) => {
-	const { username } = req.params;
-	const user = await User.findOne({ username });
-	if (!user) {
-		return res.status(404).json({ message: "User not found", code: 404 });
-	}
-	try{
-
-		QRCode.toBuffer(
-			`https://www.onelinkapp.xyz/${encodeURIComponent(req.params.username)}`,
-			{
-				width: Number(req.query.width || 144),
-				color: {
-					light: String(req.query.light || "#ffffff"),
-					dark: String(req.query.dark || "#000000"),
-				},
-			},
-			(err, buffer) => {
-				res.setHeader("content-type", "image/png");
-				res.write(buffer, "binary");
-				res.end(null, "binary");
-			}
-		);
-	}catch(err){
-		next(err)
-	}
-});
 
 router.use(checkAuth);
 

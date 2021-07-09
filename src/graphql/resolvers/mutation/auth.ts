@@ -1,13 +1,10 @@
-import User from "../../../models/User.model";
-import { DocumentQuery } from "mongoose";
+import { DocumentQuery } from 'mongoose';
+
+import User from '../../../models/User.model';
+import { Context } from '../../../types/Request';
 import {
-	googleAuth,
-	hasUniqueEmail,
-	login,
-	register,
-	setRefreshToken,
-} from "../../../utils/functions";
-import { Context } from "../../../types/Request";
+    googleAuth, hasUniqueEmail, login, register, setRefreshToken
+} from '../../../utils/functions';
 
 export const auth = {
 	googleRegister: async (
