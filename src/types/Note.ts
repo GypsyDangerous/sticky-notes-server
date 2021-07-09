@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-import { User } from "./User";
 
 export interface NoteWindowOptions {
 	opacity: number;
@@ -8,9 +7,9 @@ export interface NoteWindowOptions {
 }
 
 export interface Note extends mongoose.Document {
-	rawText: string,
-	text: string,
-	windowOptions: NoteWindowOptions,
+	rawText: string;
+	text: string;
+	windowOptions: NoteWindowOptions;
 	backgroundColor: string;
-	owner: string
+	owner: string;
 }

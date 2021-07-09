@@ -3,8 +3,8 @@ import { Note as NoteType } from "../types/Note";
 
 const NoteSchema = new Schema(
 	{
-		rawText: { type: String, required: true },
-		text: { type: String, required: true },
+		rawText: { type: String, required: true, default: "" },
+		text: { type: String, required: true, default: "" },
 		owner: { type: String, required: true },
 		backgroundColor: { type: String, required: true, default: "#FFFF88" },
 		windowOptions: {

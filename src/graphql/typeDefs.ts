@@ -8,16 +8,17 @@ export const typeDefs = gql`
 		id: ID!
 		Notes: Note[]
 	}
+	type NoteWindowOptions {
+		alwaysOnTop: Boolean!
+			clickThrough: Boolean!
+			opacity: Number!
+	}
 	type Note {
 		rawText: String!
 		text: String!
 		owner: ID!
 		backgroundColor: String!
-		windowOptions: {
-			alwaysOnTop: Boolean!
-			clickThrough: Boolean!
-			opacity: Number!
-		}
+		windowOptions: NoteWindowOptions!
 	}
 	type AuthResult {
 		user: User
@@ -44,7 +45,8 @@ export const typeDefs = gql`
 			email: String
 			phone: String
 		): User
-		updateNote(id: ID!, rawText: String!, text: String): Note
+		updateNote(id: ID!, rawText: String, text: String, windowOptions: NoteWindowOptions): Note
 		createNote(): Note
+		deleteNote(id: ID!): boolean
 	}
 `;
