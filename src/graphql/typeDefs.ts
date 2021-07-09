@@ -6,12 +6,17 @@ export const typeDefs = gql`
 		username: String!
 		email: String!
 		id: ID!
-		Notes: Note[]
+		Notes: [Note]
 	}
 	type NoteWindowOptions {
 		alwaysOnTop: Boolean!
 			clickThrough: Boolean!
-			opacity: Number!
+			opacity: Int!
+	}
+	input WindowOptions {
+		alwaysOnTop: Boolean!
+			clickThrough: Boolean!
+			opacity: Int!
 	}
 	type Note {
 		rawText: String!
@@ -31,7 +36,7 @@ export const typeDefs = gql`
 	type Query {
 		me: User
 		note(id: ID!): Note
-		user(name: String!): PublicUser
+		notes: [Note]
 		checkUniqueDetails(email: String, username: String): UniqueDetails
 	}
 	type Mutation {
@@ -45,8 +50,8 @@ export const typeDefs = gql`
 			email: String
 			phone: String
 		): User
-		updateNote(id: ID!, rawText: String, text: String, windowOptions: NoteWindowOptions): Note
-		createNote(): Note
-		deleteNote(id: ID!): boolean
+		updateNote(id: ID!, rawText: String, text: String, windowOptions: WindowOptions): Note
+		createNote: Note
+		deleteNote(id: ID!): Boolean
 	}
 `;

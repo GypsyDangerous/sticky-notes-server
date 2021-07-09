@@ -1,18 +1,9 @@
+import { Note } from '../../../models/Note.model';
 import User from '../../../models/User.model';
+import { Note as NoteType } from '../../../types/Note';
 import { Context } from '../../../types/Request';
-import { UserModification as PublicUser } from '../../../types/User';
 
 export const Query = {
-	user: async (parent: unknown, { name }: { name: string }): Promise<PublicUser> => {
-		const privateUser = await User.findOne({ username: name });
-
-		if (!privateUser) throw new Error(`unknown user: ${name}`);
-
-		return {
-			username: name,
-			id: privateUser._id,
-		};
-	},
 	me: async (parent: unknown, args: unknown, context: Context): Promise<User> => {
 		if (context.id) {
 			const user = await User.findById(context.id);
@@ -35,5 +26,11 @@ export const Query = {
 			uniqueEmail: emailUser,
 			uniqueUsername: usernameUser,
 		};
+	},
+	note: async (parent: unknown, { id }: { id: string }, context: Context): Promise<NoteType> => {
+		return Note.findOne({ _id: id, owner: context.id });
+	},
+	notes: async (parent: unknown, args: unknown, context: Context): Promise<NoteType[]> => {
+		return Note.find({ owner: context.id });
 	},
 };
