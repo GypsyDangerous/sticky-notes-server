@@ -24,6 +24,9 @@ export const typeDefs = gql`
 		owner: ID!
 		backgroundColor: String!
 		windowOptions: NoteWindowOptions!
+		id: ID!
+		updatedAt: String!
+		lastedEdited: String!
 	}
 	type AuthResult {
 		user: User

@@ -12,4 +12,5 @@ export interface Note extends mongoose.Document {
 	windowOptions: NoteWindowOptions;
 	backgroundColor: string;
 	owner: string;
+	lastEdited: number
 }
